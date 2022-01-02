@@ -4,3 +4,6 @@
 [submodule "lib/indexed-sparse-merkle-tree"]
 	path = lib/indexed-sparse-merkle-tree
 	url = https://github.com/rugpullindex/indexed-sparse-merkle-tree
+[submodule "lib/solmate"]
+	path = lib/solmate
+	url = https://github.com/Rari-Capital/solmate
