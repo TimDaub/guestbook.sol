@@ -17,11 +17,6 @@ contract GuestbookTest is DSTest {
 
     receive() external payable { }
 
-    function genMapVal(uint8 bufLength, uint8 index) public returns (uint8) {
-        uint8 bytePos = (bufLength - 1) - (index / 8);
-        return bytePos + 1 << (index % 8);
-    }
-
     function setUp() public {
         g = new Guestbook(address(this));
 		hevm = Hevm(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
