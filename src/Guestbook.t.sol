@@ -23,8 +23,8 @@ contract GuestbookTest is DSTest {
     }
 
     function testBlockTax() public {
-        assertEq(tax(0 ether, 50 ether, 1 ether), 0.5 ether);
-        assertEq(tax(0 ether, 1 ether, 1 ether), 0.01 ether);
+        assertEq(tax(0, 50, 1 ether), 0.5 ether);
+        assertEq(tax(0, 1, 1 ether), 0.01 ether);
     }
 
     function testEnterFirst() public {

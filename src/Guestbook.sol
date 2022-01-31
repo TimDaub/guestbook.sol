@@ -18,21 +18,19 @@ function leaf(
     return keccak256(abi.encode(_text, _owner, _price, _blockNumber));
 }
 
-uint256 constant BLOCK_TAX_NUMERATOR = 1 ether;
-uint256 constant BLOCK_TAX_DENOMINATOR = 100 ether;
+uint256 constant BLOCK_TAX_NUMERATOR = 1;
+uint256 constant BLOCK_TAX_DENOMINATOR = 100;
 
 function tax(
-    uint256 start,
-    uint256 end,
+    uint256 startBlock,
+    uint256 endBlock,
     uint256 price
 ) pure returns (uint256) {
-    return FixedPointMathLib.fmul(
-        FixedPointMathLib.fmul(price, (end - start), FixedPointMathLib.WAD),
-        FixedPointMathLib.fdiv(
-            BLOCK_TAX_NUMERATOR,
-            BLOCK_TAX_DENOMINATOR,
-            FixedPointMathLib.WAD
-        ),
+    uint256 diff = endBlock - startBlock;
+    uint256 scaledDenominator = BLOCK_TAX_DENOMINATOR * FixedPointMathLib.WAD;
+    return FixedPointMathLib.fdiv(
+        price * diff * BLOCK_TAX_NUMERATOR,
+        scaledDenominator,
         FixedPointMathLib.WAD
     );
 }
@@ -83,7 +81,7 @@ contract Guestbook {
             root
         );
 
-        uint256 taxes = tax(_transition.blockNumber*1e18, block.number*1e18, _transition.oldPrice);
+        uint256 taxes = tax(_transition.blockNumber, block.number, _transition.oldPrice);
         uint256 payout = _transition.oldPrice - taxes;
         if (payout > 0) {
             payable(_transition.oldOwner).transfer(payout);
