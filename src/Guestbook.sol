@@ -62,7 +62,7 @@ contract Guestbook {
         owner = _owner;
     }
 
-    function withdraw() public {
+    function withdraw() external {
         require(msg.sender == owner, "only owner");
         payable(msg.sender).transfer(address(this).balance);
     }
@@ -71,8 +71,8 @@ contract Guestbook {
         Transition calldata _transition,
         bytes32[] calldata _proofs,
         uint8 _bits
-    ) public payable {
-        require(msg.value > 0, "great than zero");
+    ) external payable {
+        require(msg.value > 0, "need more than zero");
         require(msg.value >= _transition.oldPrice, "price too low");
         root = StateTree.write(
             _proofs,
